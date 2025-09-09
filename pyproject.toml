@@ -1,5 +1,5 @@
 [project]
-name = "assesment2"
+name = "fastapi-mongo-app"
 version = "0.1.0"
 description = "FastAPI + MongoDB Example"
 dependencies = [
@@ -12,6 +12,5 @@ dependencies = [
     "httpx"
 ]
 
-[tool.uv]
-# keep venv inside project for CI/CD simplicity
-venv = ".venv"
+[tool.pytest.ini_options]
+pythonpath = ["."]

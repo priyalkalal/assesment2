@@ -1,7 +1,17 @@
 [project]
-name = "lib-management"
+name = "assesment2"
 version = "0.1.0"
-requires-python = ">=3.13"
+description = "FastAPI + MongoDB Example"
 dependencies = [
-    "fastapi[standard]>=0.116.1",
+    "fastapi",
+    "uvicorn[standard]",
+    "pymongo",
+    "python-dotenv",
+    "pydantic",
+    "pytest",
+    "httpx"
 ]
+
+[tool.uv]
+# keep venv inside project for CI/CD simplicity
+venv = ".venv"

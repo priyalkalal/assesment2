@@ -2,24 +2,29 @@ name: CI Pipeline
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
-
-env:
-  IMAGE_NAME: ghcr.io/${{ github.repository }}/fastapi-mongo-app
+    branches: [ main ]
+  pull_request:
 
 jobs:
-  build-test-push:
+  test-build-deploy:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+    services:
+      mongo:
+        image: mongo:6
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
+    env:
+      MONGO_URL: mongodb://localhost:27017/testdb
+
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Install uv
         run: pip install uv
@@ -38,7 +43,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t $IMAGE_NAME:latest .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/fastapi-mongo-app:latest .
 
       - name: Push Docker image
-        run: docker push $IMAGE_NAME:latest
+        run: docker push ghcr.io/${{ github.repository_owner }}/fastapi-mongo-app:latest

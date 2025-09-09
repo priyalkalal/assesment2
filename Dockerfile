@@ -5,12 +5,15 @@ RUN pip install uv
 
 WORKDIR /app
 
-# Copy project files
+# Copy project metadata first (for dependency caching)
 COPY pyproject.toml ./
-COPY app ./app
 
-# Install dependencies
+# Install dependencies (including pydantic[email])
 RUN uv sync
+
+# Copy application code
+COPY app ./app
+COPY tests ./tests
 
 EXPOSE 8000
 

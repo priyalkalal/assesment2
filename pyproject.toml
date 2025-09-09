@@ -8,6 +8,7 @@ dependencies = [
     "pymongo",
     "python-dotenv",
     "pydantic",
+    "pydantic[email]",   # 👈 add this
     "pytest",
     "httpx"
 ]

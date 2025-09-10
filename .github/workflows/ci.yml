@@ -38,11 +38,14 @@ jobs:
     
     - name: Install dependencies
       run: |
-        uv add --dev pytest httpx
-        uv sync
+        uv venv
+        source .venv/bin/activate
+        uv pip install -r requirements.txt
     
     - name: Run tests
-      run: uv run pytest tests/ -v
+      run: |
+        source .venv/bin/activate
+        PYTHONPATH=. python -m pytest test_main.py -v
       env:
         MONGO_URI: mongodb://localhost:27017
         MONGO_DB: testdb
@@ -50,6 +53,7 @@ jobs:
   build-and-push:
     needs: test
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: read
       packages: write

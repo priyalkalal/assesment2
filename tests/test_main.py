@@ -1,7 +1,13 @@
 # tests/test_main.py
+import sys
+import os
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import patch, MagicMock
+
+# Add the parent directory to the Python path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from main import app
 
 client = TestClient(app)

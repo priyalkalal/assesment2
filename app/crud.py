@@ -1,4 +1,5 @@
 from bson import ObjectId
+from bson.errors import InvalidId
 from .database import users_collection
 
 def create_user(user: dict) -> str:
@@ -6,8 +7,14 @@ def create_user(user: dict) -> str:
     return str(result.inserted_id)
 
 def get_user(user_id: str) -> dict | None:
-    user = users_collection.find_one({"_id": ObjectId(user_id)})
-    if user:
-        user["id"] = str(user["_id"])
-        del user["_id"]
-    return user
+    try:
+        # Validate ObjectId format first
+        obj_id = ObjectId(user_id)
+        user = users_collection.find_one({"_id": obj_id})
+        if user:
+            user["id"] = str(user["_id"])
+            del user["_id"]
+        return user
+    except InvalidId:
+        # If the user_id is not a valid ObjectId, return None
+        return None

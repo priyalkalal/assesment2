@@ -61,6 +61,15 @@ def test_get_user_not_found(mock_collection):
     """Test user not found scenario"""
     mock_collection.find_one.return_value = None
     
+    # Use a valid ObjectId format for this test
+    response = client.get("/user/507f1f77bcf86cd799439012")
+    
+    assert response.status_code == 404
+    assert response.json()["detail"] == "User not found"
+
+def test_get_user_invalid_objectid():
+    """Test user retrieval with invalid ObjectId format"""
+    # This should also return 404 due to invalid ObjectId format
     response = client.get("/user/nonexistent")
     
     assert response.status_code == 404

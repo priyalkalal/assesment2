@@ -1,17 +1,28 @@
 [project]
 name = "fastapi-mongo-app"
 version = "0.1.0"
-description = "FastAPI + MongoDB Example"
+description = "FastAPI + MongoDB Example with CI/CD"
 dependencies = [
-    "fastapi",
-    "uvicorn[standard]",
-    "pymongo",
-    "python-dotenv",
-    "pydantic",
-    "pydantic[email]",   # 👈 add this
-    "pytest",
-    "httpx"
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pymongo>=4.6.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.5.0",
+    "pydantic[email]>=2.5.0",
+    "pytest>=7.4.0",
+    "httpx>=0.25.0",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "httpx>=0.25.0",
+]

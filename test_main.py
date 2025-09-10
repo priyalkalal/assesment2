@@ -20,7 +20,7 @@ def test_root_endpoint():
     assert response.status_code == 200
     assert "message" in response.json()
 
-@patch('crud.users_collection')
+@patch('app.crud.users_collection')
 def test_create_user_success(mock_collection):
     """Test successful user creation"""
     # Mock MongoDB insert result
@@ -37,7 +37,7 @@ def test_create_user_success(mock_collection):
     assert data["role"] == test_user["role"]
     assert "id" in data
 
-@patch('crud.users_collection')
+@patch('app.crud.users_collection')
 def test_get_user_found(mock_collection):
     """Test successful user retrieval"""
     user_id = "507f1f77bcf86cd799439011"
@@ -56,7 +56,7 @@ def test_get_user_found(mock_collection):
     assert data["id"] == user_id
     assert data["name"] == "Jane Smith"
 
-@patch('crud.users_collection')
+@patch('app.crud.users_collection')
 def test_get_user_not_found(mock_collection):
     """Test user not found scenario"""
     mock_collection.find_one.return_value = None

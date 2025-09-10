@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
-from models import UserCreate, UserResponse
-import crud
+from app.models import UserCreate, UserResponse
+from app import crud
 
 app = FastAPI(title="FastAPI MongoDB App", version="1.0.0")
 
